@@ -12,4 +12,10 @@
     <packaging>jar</packaging>
     <name>常用工具库</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+    </dependencies>
 </project>
