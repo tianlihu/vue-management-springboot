@@ -1,6 +1,5 @@
 package ${cfg.basePackage}.query;
 
-import ${cfg.basePackage}.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
