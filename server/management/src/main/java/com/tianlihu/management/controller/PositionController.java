@@ -72,8 +72,8 @@ public class PositionController {
     public void export(PositionQuery query, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("职位", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        String fileName = URLEncoder.encode("职位.xlsx", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         EasyExcel.write(response.getOutputStream(), Position.class).sheet("职位").doWrite(list(query));
     }
 }

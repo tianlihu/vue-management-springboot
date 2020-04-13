@@ -72,8 +72,8 @@ public class RoleController {
     public void export(RoleQuery query, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("角色", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        String fileName = URLEncoder.encode("角色.xlsx", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         EasyExcel.write(response.getOutputStream(), Role.class).sheet("角色").doWrite(list(query));
     }
 }

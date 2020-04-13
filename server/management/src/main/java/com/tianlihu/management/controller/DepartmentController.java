@@ -72,8 +72,8 @@ public class DepartmentController {
     public void export(DepartmentQuery query, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("部门", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        String fileName = URLEncoder.encode("部门.xlsx", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         EasyExcel.write(response.getOutputStream(), Department.class).sheet("部门").doWrite(list(query));
     }
 }

@@ -83,8 +83,8 @@ public class ${table.controllerName} {
     public void export(${entity}Query query, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("${table.comment!}", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        String fileName = URLEncoder.encode("${table.comment!}.xlsx", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         EasyExcel.write(response.getOutputStream(), ${entity}.class).sheet("${table.comment!}").doWrite(list(query));
     }
 }

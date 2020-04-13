@@ -72,8 +72,8 @@ public class PermissionController {
     public void export(PermissionQuery query, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        String fileName = URLEncoder.encode("权限", "UTF-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+        String fileName = URLEncoder.encode("权限.xlsx", "UTF-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
         EasyExcel.write(response.getOutputStream(), Permission.class).sheet("权限").doWrite(list(query));
     }
 }
