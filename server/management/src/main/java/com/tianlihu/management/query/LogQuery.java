@@ -1,6 +1,5 @@
 package com.tianlihu.management.query;
 
-import com.tianlihu.management.query.PageQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,8 +10,6 @@ import lombok.EqualsAndHashCode;
 @ApiModel("日志查询条件")
 public class LogQuery extends PageQuery {
 
-    @ApiModelProperty(value = "日志ID", notes = "日志ID")
-    private String logId;
     @ApiModelProperty(value = "用户ID", notes = "用户ID")
     private String userId;
     @ApiModelProperty(value = "类型", notes = "类型")
