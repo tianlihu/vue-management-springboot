@@ -87,7 +87,7 @@ public class User implements Serializable {
 
     /** 登录次数 */
     @TableField("login_times")
-    private Integer loginTimes;
+    private Integer loginTimes = 0;
 
     /** 状态(0未启用, 1启用) */
     @TableField("status")
@@ -98,7 +98,7 @@ public class User implements Serializable {
     @JsonIgnore
     @TableField("del")
     @TableLogic
-    private Boolean del;
+    private Boolean del =false;
 
 
 }
