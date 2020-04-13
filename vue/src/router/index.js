@@ -104,7 +104,7 @@ export default new Router({
                 },
                 {
                     path: '/user',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/User.vue'),
                     meta: { title: '用户管理' }
                 },
                 {
