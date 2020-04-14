@@ -5,7 +5,6 @@ import com.tianlihu.management.query.PositionQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * 职位 前端控制器
- * </p>
+ * <p>职位 前端控制器</p>
  *
  * @author tianlihu
- * @since 2020-04-13
+ * @since 2020-04-14
  */
 @RestController
 public class PositionController {
@@ -34,8 +31,7 @@ public class PositionController {
 
     @RequestMapping("/position/page")
     public IPage<Position> page(@RequestBody PositionQuery query){
-        Page<Position> page= new Page<Position>(query.getPage(), query.getPageSize());
-        return positionService.page(page);
+        return positionService.page(query);
     }
 
     @RequestMapping("/position/list")

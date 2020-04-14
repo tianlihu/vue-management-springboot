@@ -1,38 +1,237 @@
 <template>
-    <div>
-        <div class="crumbs">
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-lx-warn"></i> 权限测试</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-        <div class="container">
-            <h1>管理员权限页面</h1>
-            <p>只有用 admin 账号登录的才拥有管理员权限，才能进到这个页面，其他账号想进来都会跳到403页面，重新用管理员账号登录才有权限。</p>
-            <p>想尝试一下，请<router-link to="/login" class="logout">退出登录</router-link>，随便输入个账号名，再进来试试看。</p>
-        </div>
-
+  <div>
+    <div class="crumbs">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>
+          <i class="el-icon-lx-cascades"></i> 权限管理
+        </el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <div class="container">
+      <div class="handle-box">
+        <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
+        <el-input v-model="query.permissionId" placeholder="权限ID" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.parentId" placeholder="父权限ID" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.menu" placeholder="是否菜单" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.url" placeholder="URL" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.icon" placeholder="图标" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.sort" placeholder="排序" class="handle-input mr10" style="width:120px;" />
+        <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+      </div>
+      <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" align="center" />
+        <el-table-column prop="permissionId" label="权限ID" width="55" align="center" />
+        <el-table-column prop="parentId" label="父权限ID" />
+        <el-table-column prop="name" label="名称" />
+        <el-table-column prop="menu" label="是否菜单" />
+        <el-table-column prop="url" label="URL" />
+        <el-table-column prop="icon" label="图标" />
+        <el-table-column prop="sort" label="排序" />
+        <el-table-column label="操作" width="180" align="center">
+          <template slot-scope="scope">
+            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination @size-change="handlePageChange" @current-change="handleCurrentChange" :current-page="query.current" :total="total" :page-sizes="[5, 10, 15, 20]" :page-size="query.size" layout="total, sizes, prev, pager, next, jumper" />
+      </div>
+    </div>
+
+    <!-- 添加弹出框 -->
+    <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
+      <el-form ref="form" :model="form" label-width="70px">
+        <el-form-item label="父权限ID" label-width="70px" prop="departmentId">
+          <el-input v-model="form.parentId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="名称" label-width="70px" prop="departmentId">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="是否菜单" label-width="70px" prop="departmentId">
+          <el-input v-model="form.menu" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="URL" label-width="70px" prop="departmentId">
+          <el-input v-model="form.url" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="图标" label-width="70px" prop="departmentId">
+          <el-input v-model="form.icon" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="排序" label-width="70px" prop="departmentId">
+          <el-input v-model="form.sort" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveAdd">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑弹出框 -->
+    <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
+      <el-form ref="form" :model="form" label-width="70px">
+            <el-form-item label="父权限ID" label-width="70px" prop="departmentId">
+              <el-input v-model="form.parentId" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="名称" label-width="70px" prop="departmentId">
+              <el-input v-model="form.name" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="是否菜单" label-width="70px" prop="departmentId">
+              <el-input v-model="form.menu" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="URL" label-width="70px" prop="departmentId">
+              <el-input v-model="form.url" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="图标" label-width="70px" prop="departmentId">
+              <el-input v-model="form.icon" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="排序" label-width="70px" prop="departmentId">
+              <el-input v-model="form.sort" autocomplete="off" />
+            </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveEdit">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-    export default {
-        data: function(){
-            return {}
+import { fetchPermission, savePermission, updatePermission, deletePermission } from '../../api/permission';
+export default {
+    name: 'basetable',
+    data() {
+        return {
+            query: {
+                current: 1,
+                size: 10
+            },
+            tableData: [],
+            multipleSelection: [],
+            delList: [],
+            addVisible: false,
+            editVisible: false,
+            total: 0,
+            form: {},
+            idx: -1,
+            id: -1
+        };
+    },
+    created() {
+        this.getData();
+    },
+    methods: {
+        // 获取分页数据
+        getData() {
+            fetchPermission(this.query).then(res => {
+                this.tableData = res.records;
+                this.total = res.total;
+            });
+        },
+        // 触发搜索按钮
+        handleSearch() {
+            this.getData();
+        },
+        // 删除操作
+        handleDelete(index, row) {
+            // 二次确认删除
+            this.$confirm('确定要删除吗？', '提示', {
+                type: 'warning'
+            })
+                .then(() => {
+                    deletePermission({ id: row.permissionId }).then(res => {
+                        this.getData();
+                        this.$message.success('删除成功');
+                    });
+                })
+                .catch(() => {});
+        },
+        // 多选操作
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        delAllSelection() {
+            const length = this.multipleSelection.length;
+            let ids = [];
+            this.multipleSelection.forEach(row => {
+                ids.push(row.permissionId);
+            });
+            deletePermission({ id: ids }).then(res => {
+                this.getData();
+                this.multipleSelection = [];
+                this.$message.success('删除成功');
+            });
+        },
+        // 添加操作
+        handleAdd(index, row) {
+            this.form = {};
+            this.addVisible = true;
+        },
+        // 保存添加
+        saveAdd() {
+            savePermission(this.form).then(res => {
+                this.getData();
+                this.addVisible = false;
+                this.$message.success('保存成功');
+            });
+        },
+        // 编辑操作
+        handleEdit(index, row) {
+            this.idx = index;
+            this.form = Object.assign({}, row);
+            this.editVisible = true;
+        },
+        // 保存编辑
+        saveEdit() {
+            updatePermission(this.form).then(res => {
+                this.getData();
+                this.editVisible = false;
+                this.$message.success('修改成功');
+            });
+        },
+        // 分页导航
+        handleCurrentChange(val) {
+            this.query.current = val;
+            this.getData();
+        },
+        handlePageChange(val) {
+            this.query.size = val;
+            this.getData();
         }
     }
+};
 </script>
 
 <style scoped>
-h1{
-    text-align: center;
-    margin: 30px 0;
+.handle-box {
+    margin-bottom: 20px;
 }
-p{
-    line-height: 30px;
-    margin-bottom: 10px;
-    text-indent: 2em;
+
+.handle-select {
+    width: 120px;
 }
-.logout{
-    color: #409EFF;
+
+.handle-input {
+    width: 300px;
+    display: inline-block;
+}
+.table {
+    width: 100%;
+    font-size: 14px;
+}
+.red {
+    color: #ff0000;
+}
+.mr10 {
+    margin-right: 10px;
+}
+.table-td-thumb {
+    display: block;
+    margin: auto;
+    width: 40px;
+    height: 40px;
 }
 </style>

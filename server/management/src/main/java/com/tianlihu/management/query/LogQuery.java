@@ -1,5 +1,7 @@
 package com.tianlihu.management.query;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tianlihu.management.entity.Log;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("日志查询条件")
-public class LogQuery extends PageQuery {
+public class LogQuery extends Page<Log> {
 
     @ApiModelProperty(value = "用户ID", notes = "用户ID")
     private String userId;

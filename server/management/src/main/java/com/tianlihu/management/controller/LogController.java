@@ -5,7 +5,6 @@ import com.tianlihu.management.query.LogQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * 日志 前端控制器
- * </p>
+ * <p>日志 前端控制器</p>
  *
  * @author tianlihu
- * @since 2020-04-13
+ * @since 2020-04-14
  */
 @RestController
 public class LogController {
@@ -34,8 +31,7 @@ public class LogController {
 
     @RequestMapping("/log/page")
     public IPage<Log> page(@RequestBody LogQuery query){
-        Page<Log> page= new Page<Log>(query.getPage(), query.getPageSize());
-        return logService.page(page);
+        return logService.page(query);
     }
 
     @RequestMapping("/log/list")

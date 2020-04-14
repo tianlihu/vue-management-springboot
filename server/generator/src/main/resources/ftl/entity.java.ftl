@@ -23,9 +23,7 @@ import lombok.experimental.Accessors;
 </#if>
 
 /**
- * <p>
- * ${table.comment!}
- * </p>
+ * <p>${table.comment!}</p>
  *
  * @author ${author}
  * @since ${date}

@@ -1,5 +1,7 @@
 package com.tianlihu.management.query;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tianlihu.management.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("用户查询条件")
-public class UserQuery extends PageQuery {
+public class UserQuery extends Page<User> {
 
     @ApiModelProperty(value = "部门ID", notes = "部门ID")
     private Integer departmentId;

@@ -5,7 +5,6 @@ import com.tianlihu.management.query.PermissionQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * 权限 前端控制器
- * </p>
+ * <p>权限 前端控制器</p>
  *
  * @author tianlihu
- * @since 2020-04-13
+ * @since 2020-04-14
  */
 @RestController
 public class PermissionController {
@@ -34,8 +31,7 @@ public class PermissionController {
 
     @RequestMapping("/permission/page")
     public IPage<Permission> page(@RequestBody PermissionQuery query){
-        Page<Permission> page= new Page<Permission>(query.getPage(), query.getPageSize());
-        return permissionService.page(page);
+        return permissionService.page(query);
     }
 
     @RequestMapping("/permission/list")

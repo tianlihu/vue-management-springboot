@@ -5,7 +5,6 @@ import com.tianlihu.management.query.DepartmentQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * 部门 前端控制器
- * </p>
+ * <p>部门 前端控制器</p>
  *
  * @author tianlihu
- * @since 2020-04-13
+ * @since 2020-04-14
  */
 @RestController
 public class DepartmentController {
@@ -34,8 +31,7 @@ public class DepartmentController {
 
     @RequestMapping("/department/page")
     public IPage<Department> page(@RequestBody DepartmentQuery query){
-        Page<Department> page= new Page<Department>(query.getPage(), query.getPageSize());
-        return departmentService.page(page);
+        return departmentService.page(query);
     }
 
     @RequestMapping("/department/list")

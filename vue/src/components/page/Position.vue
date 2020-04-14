@@ -3,28 +3,32 @@
     <div class="crumbs">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <i class="el-icon-lx-cascades"></i> ${table.comment!}管理
+          <i class="el-icon-lx-cascades"></i> 职位管理
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-        <#list table.fields as field>
-        <el-input v-model="query.${field.propertyName}" placeholder="${field.comment!}" class="handle-input mr10" style="width:120px;" />
-        </#list>
+        <el-input v-model="query.positionId" placeholder="职位ID" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.code" placeholder="编码" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.createTime" placeholder="创建时间" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.updateTime" placeholder="修改时间" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.status" placeholder="状态(0启用, 1停用)" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.del" placeholder="删除(0正常, 1删除)" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <#list table.fields as field>
-        <#if field.keyFlag>
-        <el-table-column prop="${field.propertyName}" label="${field.comment!}" width="55" align="center" />
-        <#else>
-        <el-table-column prop="${field.propertyName}" label="${field.comment!}" />
-        </#if>
-        </#list>
+        <el-table-column prop="positionId" label="职位ID" width="55" align="center" />
+        <el-table-column prop="name" label="名称" />
+        <el-table-column prop="code" label="编码" />
+        <el-table-column prop="createTime" label="创建时间" />
+        <el-table-column prop="updateTime" label="修改时间" />
+        <el-table-column prop="status" label="状态(0启用, 1停用)" />
+        <el-table-column prop="del" label="删除(0正常, 1删除)" />
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -40,13 +44,24 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <#list table.fields as field>
-        <#if !field.keyFlag>
-        <el-form-item label="${field.comment!}" label-width="70px" prop="departmentId">
-          <el-input v-model="form.${field.propertyName}" autocomplete="off" />
+        <el-form-item label="名称" label-width="70px" prop="departmentId">
+          <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        </#if>
-        </#list>
+        <el-form-item label="编码" label-width="70px" prop="departmentId">
+          <el-input v-model="form.code" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="创建时间" label-width="70px" prop="departmentId">
+          <el-input v-model="form.createTime" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="修改时间" label-width="70px" prop="departmentId">
+          <el-input v-model="form.updateTime" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="状态(0启用, 1停用)" label-width="70px" prop="departmentId">
+          <el-input v-model="form.status" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="删除(0正常, 1删除)" label-width="70px" prop="departmentId">
+          <el-input v-model="form.del" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addVisible = false">取 消</el-button>
@@ -57,13 +72,24 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <#list table.fields as field>
-          <#if !field.keyFlag>
-            <el-form-item label="${field.comment!}" label-width="70px" prop="departmentId">
-              <el-input v-model="form.${field.propertyName}" autocomplete="off" />
+            <el-form-item label="名称" label-width="70px" prop="departmentId">
+              <el-input v-model="form.name" autocomplete="off" />
             </el-form-item>
-          </#if>
-        </#list>
+            <el-form-item label="编码" label-width="70px" prop="departmentId">
+              <el-input v-model="form.code" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="创建时间" label-width="70px" prop="departmentId">
+              <el-input v-model="form.createTime" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="修改时间" label-width="70px" prop="departmentId">
+              <el-input v-model="form.updateTime" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="状态(0启用, 1停用)" label-width="70px" prop="departmentId">
+              <el-input v-model="form.status" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="删除(0正常, 1删除)" label-width="70px" prop="departmentId">
+              <el-input v-model="form.del" autocomplete="off" />
+            </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>
@@ -74,7 +100,7 @@
 </template>
 
 <script>
-import { fetch${entity}, save${entity}, update${entity}, delete${entity} } from '../../api/${table.entityPath}';
+import { fetchPosition, savePosition, updatePosition, deletePosition } from '../../api/position';
 export default {
     name: 'basetable',
     data() {
@@ -100,7 +126,7 @@ export default {
     methods: {
         // 获取分页数据
         getData() {
-            fetch${entity}(this.query).then(res => {
+            fetchPosition(this.query).then(res => {
                 this.tableData = res.records;
                 this.total = res.total;
             });
@@ -116,7 +142,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    delete${entity}({ id: row.${table.entityPath}Id }).then(res => {
+                    deletePosition({ id: row.positionId }).then(res => {
                         this.getData();
                         this.$message.success('删除成功');
                     });
@@ -131,9 +157,9 @@ export default {
             const length = this.multipleSelection.length;
             let ids = [];
             this.multipleSelection.forEach(row => {
-                ids.push(row.${table.entityPath}Id);
+                ids.push(row.positionId);
             });
-            delete${entity}({ id: ids }).then(res => {
+            deletePosition({ id: ids }).then(res => {
                 this.getData();
                 this.multipleSelection = [];
                 this.$message.success('删除成功');
@@ -146,7 +172,7 @@ export default {
         },
         // 保存添加
         saveAdd() {
-            save${entity}(this.form).then(res => {
+            savePosition(this.form).then(res => {
                 this.getData();
                 this.addVisible = false;
                 this.$message.success('保存成功');
@@ -160,7 +186,7 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            update${entity}(this.form).then(res => {
+            updatePosition(this.form).then(res => {
                 this.getData();
                 this.editVisible = false;
                 this.$message.success('修改成功');

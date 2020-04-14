@@ -34,8 +34,7 @@ public class UserController {
 
     @RequestMapping("/user/page")
     public IPage<User> page(@RequestBody UserQuery query){
-        Page<User> page= new Page<User>(query.getPage(), query.getPageSize());
-        return userService.page(page);
+        return userService.page(query);
     }
 
     @RequestMapping("/user/list")

@@ -109,27 +109,27 @@ export default new Router({
                 },
                 {
                     path: '/role',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Role.vue'),
                     meta: { title: '角色管理' }
                 },
                 {
                     path: '/permission',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Permission.vue'),
                     meta: { title: '权限管理' }
                 },
                 {
                     path: '/department',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Department.vue'),
                     meta: { title: '部门管理' }
                 },
                 {
                     path: '/position',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Position.vue'),
                     meta: { title: '职位管理' }
                 },
                 {
                     path: '/log',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/BaseTable.vue'),
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Log.vue'),
                     meta: { title: '日志' }
                 }
             ]

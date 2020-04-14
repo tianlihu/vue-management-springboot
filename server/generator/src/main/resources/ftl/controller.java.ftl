@@ -5,7 +5,6 @@ import ${cfg.basePackage}.query.${entity}Query;
 import ${cfg.basePackage}.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * ${table.comment!} 前端控制器
- * </p>
+ * <p>${table.comment!} 前端控制器</p>
  *
  * @author ${author}
  * @since ${date}
@@ -45,8 +42,7 @@ public class ${table.controllerName} {
 
     @RequestMapping("/${table.entityPath}/page")
     public IPage<${entity}> page(@RequestBody ${entity}Query query){
-        Page<${entity}> page= new Page<${entity}>(query.getPage(), query.getPageSize());
-        return ${table.entityPath}Service.page(page);
+        return ${table.entityPath}Service.page(query);
     }
 
     @RequestMapping("/${table.entityPath}/list")

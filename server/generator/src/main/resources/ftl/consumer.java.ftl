@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * <p>
- * ${table.comment!} 服务调用外部接口
- * </p>
+ * <p>${table.comment!} 服务调用外部接口</p>
  *
  * @author ${author}
  * @since ${date}

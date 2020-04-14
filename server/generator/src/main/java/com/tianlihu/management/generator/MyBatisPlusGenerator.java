@@ -114,7 +114,13 @@ public class MyBatisPlusGenerator implements ApplicationRunner {
         focList.add(new FileOutConfig("/ftl/page.vue.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/dist/vue/" + tableInfo.getEntityName() + ".vue";
+                return projectPath + "/dist/vue/page/" + tableInfo.getEntityName() + ".vue";
+            }
+        });
+        focList.add(new FileOutConfig("/ftl/api.js.ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/dist/vue/api/" + Character.toLowerCase(tableInfo.getEntityName().charAt(0)) + tableInfo.getEntityName().substring(1) + ".js";
             }
         });
 //        focList.add(new FileOutConfig("/ftl/api.java.ftl") {

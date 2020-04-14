@@ -19,13 +19,13 @@
         <el-input v-model="query.account" placeholder="登录名" class="handle-input mr10" style="width:120px;" />
         <el-select v-model="query.admin" placeholder="是否管理员" class="handle-select mr10">
           <el-option label="全部" value="" />
-          <el-option label="是" value="是" />
-          <el-option label="否" value="否" />
+          <el-option label="是" value="true" />
+          <el-option label="否" value="false" />
         </el-select>
         <el-select v-model="query.status" placeholder="状态" class="handle-select mr10">
           <el-option label="全部" value="" />
-          <el-option label="启用" value="启用" />
-          <el-option label="禁用" value="禁用" />
+          <el-option label="启用" value="true" />
+          <el-option label="禁用" value="false" />
         </el-select>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
@@ -56,7 +56,7 @@
         </el-table-column>
       </el-table>
       <div class="pagination">
-        <el-pagination background layout="total, prev, pager, next" :current-page="query.pageIndex" :page-size="query.pageSize" :total="pageTotal" @current-change="handlePageChange"></el-pagination>
+        <el-pagination @size-change="handlePageChange" @current-change="handleCurrentChange" :current-page="query.current" :total="total" :page-sizes="[5, 10, 15, 20]" :page-size="query.size" layout="total, sizes, prev, pager, next, jumper" />
       </div>
     </div>
 
@@ -131,17 +131,15 @@ export default {
     data() {
         return {
             query: {
-                address: '',
-                name: '',
-                pageIndex: 1,
-                pageSize: 10
+                current: 1,
+                size: 10
             },
             tableData: [],
             multipleSelection: [],
             delList: [],
             addVisible: false,
             editVisible: false,
-            pageTotal: 0,
+            total: 0,
             form: {},
             idx: -1,
             id: -1
@@ -154,9 +152,8 @@ export default {
         // 获取 easy-mock 的模拟数据
         getData() {
             fetchData(this.query).then(res => {
-                console.log(res);
                 this.tableData = res.records;
-                this.pageTotal = res.total;
+                this.total = res.total;
             });
         },
         // 触发搜索按钮
@@ -222,8 +219,12 @@ export default {
             });
         },
         // 分页导航
+        handleCurrentChange(val) {
+            this.query.current = val;
+            this.getData();
+        },
         handlePageChange(val) {
-            this.$set(this.query, 'pageIndex', val);
+            this.query.size = val;
             this.getData();
         }
     }

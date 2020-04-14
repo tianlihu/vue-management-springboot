@@ -5,7 +5,6 @@ import com.tianlihu.management.query.RoleQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,10 @@ import java.net.URLEncoder;
 import java.util.List;
 
 /**
- * <p>
- * 角色 前端控制器
- * </p>
+ * <p>角色 前端控制器</p>
  *
  * @author tianlihu
- * @since 2020-04-13
+ * @since 2020-04-14
  */
 @RestController
 public class RoleController {
@@ -34,8 +31,7 @@ public class RoleController {
 
     @RequestMapping("/role/page")
     public IPage<Role> page(@RequestBody RoleQuery query){
-        Page<Role> page= new Page<Role>(query.getPage(), query.getPageSize());
-        return roleService.page(page);
+        return roleService.page(query);
     }
 
     @RequestMapping("/role/list")

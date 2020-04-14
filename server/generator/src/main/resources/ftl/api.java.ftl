@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * <p>
- * ${table.comment!} 服务调用端
- * </p>
+ * <p>${table.comment!} 服务调用端</p>
  *
  * @author ${author}
  * @since ${date}
