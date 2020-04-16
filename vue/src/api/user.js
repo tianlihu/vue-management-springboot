@@ -34,6 +34,14 @@ export const deleteUser = params => {
 
 export const saveUserRole = params => {
     return request({
+        url: '/rest/user/setRoles',
+        method: 'get',
+        params: params
+    });
+};
+
+export const fetchUserRoles = params => {
+    return request({
         url: '/rest/user/roles',
         method: 'get',
         params: params

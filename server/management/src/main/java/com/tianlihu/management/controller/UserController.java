@@ -5,12 +5,10 @@ import com.tianlihu.management.query.UserQuery;
 import com.tianlihu.management.response.ResponseData;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.tianlihu.management.entity.User;
-import com.tianlihu.management.query.UserQuery;
 import com.tianlihu.management.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +65,12 @@ public class UserController {
     }
 
     @RequestMapping("/user/roles")
-    public ResponseData roles(@RequestParam Integer userId, @RequestParam List<Integer> roleIds) {
+    public ResponseData roles(@RequestParam Integer userId) {
+        List<Integer> roleIds = userService.getRoleIds(userId);
+        return ResponseData.success(roleIds);
+    }
+    @RequestMapping("/user/setRoles")
+    public ResponseData setRoles(@RequestParam Integer userId, @RequestParam List<Integer> roleIds) {
         userService.setRoles(userId, roleIds);
         return ResponseData.success("保存角色成功");
     }

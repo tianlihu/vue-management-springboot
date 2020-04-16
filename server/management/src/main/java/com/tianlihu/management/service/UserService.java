@@ -87,4 +87,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             roleMapper.saveUserRole(userId, roleId);
         }
     }
+
+    public List<Integer> getRoleIds(Integer userId) {
+        return roleMapper.getRoleIds(userId);
+    }
 }

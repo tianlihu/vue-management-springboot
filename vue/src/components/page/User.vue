@@ -130,7 +130,7 @@
         <el-table-column prop="remark" label="备注" />
       </el-table>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="roleVisible = false">取 消</el-button>
+        <el-button @click="closeRoleDialog">取 消</el-button>
         <el-button type="primary" @click="saveRoles">确 定</el-button>
       </span>
     </el-dialog>
@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { fetchUser, saveUser, updateUser, deleteUser, saveUserRole } from '../../api/user';
+import { fetchUser, saveUser, updateUser, deleteUser, saveUserRole, fetchUserRoles } from '../../api/user';
 import { fetchRoleList } from '../../api/role';
 export default {
     name: 'basetable',
@@ -242,8 +242,16 @@ export default {
             });
         },
         handleRole(index, row) {
-            this.form = Object.assign({}, row);
             this.roleVisible = true;
+            fetchUserRoles({ userId: row.userId }).then(res => {
+                this.roles.forEach(role => {
+                    if (res.data.indexOf(role.roleId) != -1) {
+                        this.$refs.roleTable.toggleRowSelection(role, true);
+                    }
+                });
+
+                this.form = Object.assign({}, row);
+            });
         },
         saveRoles() {
             console.log(this.$refs.roleTable);
@@ -252,8 +260,13 @@ export default {
             selection.forEach(e => roleIds.push(e.roleId));
             saveUserRole({ userId: this.form.userId, roleIds: roleIds }).then(res => {
                 this.roleVisible = false;
+                this.$refs.roleTable.clearSelection();
                 this.$message.success('设置角色成功');
             });
+        },
+        closeRoleDialog() {
+            this.roleVisible = false;
+            this.$refs.roleTable.clearSelection();
         },
         // 分页导航
         handleCurrentChange(val) {
