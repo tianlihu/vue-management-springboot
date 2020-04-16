@@ -89,6 +89,7 @@ public class MyBatisPlusGenerator implements ApplicationRunner {
 //        // 关闭默认 xml 生成，调整生成 至 根目录
         TemplateConfig tc = new TemplateConfig();
         tc.setXml(null);
+        tc.setMapper("/ftl/mapper.java");
         tc.setService(null);
         tc.setEntity(null);
         tc.setController("/ftl/controller.java");
