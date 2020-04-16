@@ -2,6 +2,7 @@ package com.tianlihu.management.mapper;
 
 import com.tianlihu.management.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author tianlihu
  * @since 2020-04-13
  */
+@Repository
 public interface RoleMapper extends BaseMapper<Role> {
 
 }

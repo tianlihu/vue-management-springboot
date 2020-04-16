@@ -19,4 +19,10 @@
         <result column="del" property="del" />
     </resultMap>
 
+    <select id="findByAccount" resultType="com.tianlihu.management.entity.User">
+        SELECT *
+        FROM sys_user
+        WHERE account=#{account}
+    </select>
+
 </mapper>

@@ -55,6 +55,13 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
+<!--        &lt;!&ndash; 测试使用内嵌版Redis，生成上需要启动真正的redis &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.kstyrc</groupId>-->
+<!--            <artifactId>embedded-redis</artifactId>-->
+<!--            <version>0.6</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>de.codecentric</groupId>

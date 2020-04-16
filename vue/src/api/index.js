@@ -7,3 +7,18 @@ export const fetchData = query => {
         params: query
     });
 };
+
+export const login = params => {
+    return request({
+        url: '/rest/login',
+        method: 'post',
+        params: params
+    });
+};
+
+export const logout = params => {
+    return request({
+        url: '/rest/logout',
+        method: 'post'
+    });
+};
