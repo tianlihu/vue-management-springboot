@@ -15,4 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
 
+    void deleteByUserId(Integer userId);
+
+    void saveUserRole(Integer userId, Integer roleId);
 }

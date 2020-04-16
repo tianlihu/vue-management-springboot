@@ -66,6 +66,12 @@ public class UserController {
         return ResponseData.success(id);
     }
 
+    @RequestMapping("/user/roles")
+    public ResponseData roles(@RequestParam Integer userId, @RequestParam List<Integer> roleIds) {
+        userService.setRoles(userId, roleIds);
+        return ResponseData.success("保存角色成功");
+    }
+
     @ResponseBody
     @RequestMapping("/user/export")
     public void export(UserQuery query, HttpServletResponse response) throws IOException {

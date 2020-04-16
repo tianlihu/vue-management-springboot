@@ -48,8 +48,9 @@
             <el-switch v-model="scope.row.status" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="220" align="center">
           <template slot-scope="scope">
+            <el-button type="text" icon="el-icon-edit" @click="handleRole(scope.$index, scope.row)">设置角色</el-button>
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -121,11 +122,24 @@
         <el-button type="primary" @click="saveEdit">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="设置角色" v-dialogDrag :visible.sync="roleVisible" width="30%">
+      <el-table ref="roleTable" :data="roles" tooltip-effect="dark" style="width: 100%">
+        <el-table-column type="selection" width="55" />
+        <el-table-column prop="name" label="名称" />
+        <el-table-column prop="remark" label="备注" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="roleVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoles">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchData, saveData, updateData, deleteData } from '../../api/user';
+import { fetchUser, saveUser, updateUser, deleteUser, saveUserRole } from '../../api/user';
+import { fetchRoleList } from '../../api/role';
 export default {
     name: 'basetable',
     data() {
@@ -139,21 +153,30 @@ export default {
             delList: [],
             addVisible: false,
             editVisible: false,
+            roleVisible: false,
             total: 0,
             form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            roles: []
         };
     },
     created() {
         this.getData();
+        this.getRoles();
     },
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            fetchData(this.query).then(res => {
+            fetchUser(this.query).then(res => {
                 this.tableData = res.records;
                 this.total = res.total;
+            });
+        },
+        getRoles() {
+            fetchRoleList().then(res => {
+                console.log(res);
+                this.roles = res;
             });
         },
         // 触发搜索按钮
@@ -168,7 +191,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    deleteData({ id: row.userId }).then(res => {
+                    deleteUser({ id: row.userId }).then(res => {
                         this.getData();
                         this.$message.success('删除成功');
                     });
@@ -185,7 +208,7 @@ export default {
             this.multipleSelection.forEach(row => {
                 ids.push(row.userId);
             });
-            deleteData({ id: ids }).then(res => {
+            deleteUser({ id: ids }).then(res => {
                 this.getData();
                 this.multipleSelection = [];
                 this.$message.success('删除成功');
@@ -198,7 +221,7 @@ export default {
         },
         // 保存添加
         saveAdd() {
-            saveData(this.form).then(res => {
+            saveUser(this.form).then(res => {
                 this.getData();
                 this.addVisible = false;
                 this.$message.success('保存成功');
@@ -212,10 +235,24 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            updateData(this.form).then(res => {
+            updateUser(this.form).then(res => {
                 this.getData();
                 this.editVisible = false;
                 this.$message.success('修改成功');
+            });
+        },
+        handleRole(index, row) {
+            this.form = Object.assign({}, row);
+            this.roleVisible = true;
+        },
+        saveRoles() {
+            console.log(this.$refs.roleTable);
+            let selection = this.$refs.roleTable.selection;
+            let roleIds = [];
+            selection.forEach(e => roleIds.push(e.roleId));
+            saveUserRole({ userId: this.form.userId, roleIds: roleIds }).then(res => {
+                this.roleVisible = false;
+                this.$message.success('设置角色成功');
             });
         },
         // 分页导航

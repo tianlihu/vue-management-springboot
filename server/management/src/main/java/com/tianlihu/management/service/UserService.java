@@ -5,11 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tianlihu.management.commons.DateTool;
 import com.tianlihu.management.entity.User;
+import com.tianlihu.management.mapper.RoleMapper;
 import com.tianlihu.management.mapper.UserMapper;
 import com.tianlihu.management.query.UserQuery;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,6 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UserService extends ServiceImpl<UserMapper, User> {
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     public IPage<User> page(UserQuery query) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -71,5 +79,12 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         dbUser.setUpdateTime(DateTool.currentTime());
         dbUser.setStatus(user.getStatus());
         return super.updateById(user);
+    }
+
+    public void setRoles(Integer userId, List<Integer> roleIds) {
+        roleMapper.deleteByUserId(userId);
+        for (Integer roleId : roleIds) {
+            roleMapper.saveUserRole(userId, roleId);
+        }
     }
 }
