@@ -46,6 +46,6 @@ export default {
     install: function(Vue) {
         Vue.prototype.hasPermission = (...urls) => hasPermission(...urls);
         Vue.prototype.getPermissions = () => getPermissions();
-        Vue.prototype.setPermissions = permissions => setPermission(permissions);
+        Vue.prototype.setPermissions = permissions => setPermissions(permissions);
     }
 };

@@ -109,13 +109,12 @@
 <script>
 import Schart from 'vue-schart';
 import bus from '../common/bus';
-import { getLoginUser } from '@/utils/user.js';
 
 export default {
     name: 'dashboard',
     data() {
         return {
-            name: getLoginUser().account,
+            name: this.getLoginUser().account,
             todoList: [
                 {
                     title: '今天要修复100个bug',

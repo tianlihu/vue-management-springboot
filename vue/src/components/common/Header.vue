@@ -47,7 +47,6 @@
 <script>
 import bus from '../common/bus';
 import { logout } from '@/api/index';
-import { getLoginUser, removeLoginUser } from '@/utils/user.js';
 
 export default {
     data() {
@@ -60,7 +59,7 @@ export default {
     },
     computed: {
         username() {
-            let user = getLoginUser();
+            let user = this.getLoginUser();
             return user ? user.name : this.name;
         }
     },
@@ -69,7 +68,7 @@ export default {
         handleCommand(command) {
             if (command == 'loginout') {
                 logout().then(res => {
-                    removeLoginUser();
+                    this.removeLoginUser();
                     this.$router.push('/login');
                 });
             }

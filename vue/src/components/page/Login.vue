@@ -24,8 +24,6 @@
 
 <script>
 import { login } from '@/api/index';
-import { setLoginUser } from '@/utils/user.js';
-import { setPermissions } from '@/utils/permission.js';
 
 export default {
     data: function() {
@@ -46,8 +44,8 @@ export default {
                 if (valid) {
                     login(this.param).then(res => {
                         if (!res.error) {
-                            setLoginUser(res.data.user);
-                            setPermissions(res.data.permissions);
+                            this.setLoginUser(res.data.user);
+                            this.setPermissions(res.data.permissions);
                             this.$message.success('登录成功');
                             this.$router.push('/');
                         } else {
