@@ -44,22 +44,22 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="名称" label-width="70px" prop="departmentId">
+        <el-form-item label="名称" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="编码" label-width="70px" prop="departmentId">
+        <el-form-item label="编码" label-width="70px">
           <el-input v-model="form.code" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="创建时间" label-width="70px" prop="departmentId">
+        <el-form-item label="创建时间" label-width="70px">
           <el-input v-model="form.createTime" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="修改时间" label-width="70px" prop="departmentId">
+        <el-form-item label="修改时间" label-width="70px">
           <el-input v-model="form.updateTime" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="状态(0启用, 1停用)" label-width="70px" prop="departmentId">
+        <el-form-item label="状态(0启用, 1停用)" label-width="70px">
           <el-input v-model="form.status" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="删除(0正常, 1删除)" label-width="70px" prop="departmentId">
+        <el-form-item label="删除(0正常, 1删除)" label-width="70px">
           <el-input v-model="form.del" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -72,24 +72,24 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="名称" label-width="70px" prop="departmentId">
-              <el-input v-model="form.name" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="编码" label-width="70px" prop="departmentId">
-              <el-input v-model="form.code" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="创建时间" label-width="70px" prop="departmentId">
-              <el-input v-model="form.createTime" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="修改时间" label-width="70px" prop="departmentId">
-              <el-input v-model="form.updateTime" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="状态(0启用, 1停用)" label-width="70px" prop="departmentId">
-              <el-input v-model="form.status" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="删除(0正常, 1删除)" label-width="70px" prop="departmentId">
-              <el-input v-model="form.del" autocomplete="off" />
-            </el-form-item>
+        <el-form-item label="名称" label-width="70px">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="编码" label-width="70px">
+          <el-input v-model="form.code" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="创建时间" label-width="70px">
+          <el-input v-model="form.createTime" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="修改时间" label-width="70px">
+          <el-input v-model="form.updateTime" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="状态(0启用, 1停用)" label-width="70px">
+          <el-input v-model="form.status" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="删除(0正常, 1删除)" label-width="70px">
+          <el-input v-model="form.del" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>

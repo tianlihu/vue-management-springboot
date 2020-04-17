@@ -166,7 +166,7 @@ export default {
         this.getRoles();
     },
     methods: {
-        // 获取 easy-mock 的模拟数据
+        // 获取分页数据
         getData() {
             fetchUser(this.query).then(res => {
                 this.tableData = res.records;

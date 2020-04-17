@@ -10,16 +10,14 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-        <el-input v-model="query.roleId" placeholder="角色ID" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
-        <el-input v-model="query.sort" placeholder="排序" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.remark" placeholder="备注" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column prop="roleId" label="角色ID" width="55" align="center" />
+        <el-table-column prop="roleId" label="编号" width="55" align="center" />
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="sort" label="排序" />
         <el-table-column prop="remark" label="备注" />
@@ -57,15 +55,15 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="名称" label-width="70px" prop="departmentId">
-              <el-input v-model="form.name" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="排序" label-width="70px" prop="departmentId">
-              <el-input v-model="form.sort" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="备注" label-width="70px" prop="departmentId">
-              <el-input v-model="form.remark" autocomplete="off" />
-            </el-form-item>
+        <el-form-item label="名称" label-width="70px" prop="departmentId">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="排序" label-width="70px" prop="departmentId">
+          <el-input v-model="form.sort" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="备注" label-width="70px" prop="departmentId">
+          <el-input v-model="form.remark" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>

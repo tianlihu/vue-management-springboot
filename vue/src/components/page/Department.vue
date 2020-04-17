@@ -42,19 +42,19 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="上级部门ID" label-width="70px" prop="departmentId">
+        <el-form-item label="上级部门ID" label-width="70px">
           <el-input v-model="form.parentId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="简称" label-width="70px" prop="departmentId">
+        <el-form-item label="简称" label-width="70px">
           <el-input v-model="form.shortName" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="全称" label-width="70px" prop="departmentId">
+        <el-form-item label="全称" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="排序" label-width="70px" prop="departmentId">
+        <el-form-item label="排序" label-width="70px">
           <el-input v-model="form.sort" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="备注" label-width="70px" prop="departmentId">
+        <el-form-item label="备注" label-width="70px">
           <el-input v-model="form.remark" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -67,21 +67,21 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="上级部门ID" label-width="70px" prop="departmentId">
-              <el-input v-model="form.parentId" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="简称" label-width="70px" prop="departmentId">
-              <el-input v-model="form.shortName" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="全称" label-width="70px" prop="departmentId">
-              <el-input v-model="form.name" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="排序" label-width="70px" prop="departmentId">
-              <el-input v-model="form.sort" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="备注" label-width="70px" prop="departmentId">
-              <el-input v-model="form.remark" autocomplete="off" />
-            </el-form-item>
+        <el-form-item label="上级部门ID" label-width="70px">
+          <el-input v-model="form.parentId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="简称" label-width="70px">
+          <el-input v-model="form.shortName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="全称" label-width="70px">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="排序" label-width="70px">
+          <el-input v-model="form.sort" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="备注" label-width="70px">
+          <el-input v-model="form.remark" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>

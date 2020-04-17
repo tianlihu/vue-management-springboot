@@ -10,22 +10,22 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-        <el-input v-model="query.permissionId" placeholder="权限ID" class="handle-input mr10" style="width:120px;" />
-        <el-input v-model="query.parentId" placeholder="父权限ID" class="handle-input mr10" style="width:120px;" />
+        <el-input v-model="query.parentId" placeholder="父权限" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.menu" placeholder="是否菜单" class="handle-input mr10" style="width:120px;" />
-        <el-input v-model="query.url" placeholder="URL" class="handle-input mr10" style="width:120px;" />
-        <el-input v-model="query.icon" placeholder="图标" class="handle-input mr10" style="width:120px;" />
-        <el-input v-model="query.sort" placeholder="排序" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column prop="permissionId" label="权限ID" width="55" align="center" />
-        <el-table-column prop="parentId" label="父权限ID" />
+        <el-table-column prop="permissionId" label="编号" width="55" align="center" />
+        <el-table-column prop="parentId" label="父权限" />
         <el-table-column prop="name" label="名称" />
-        <el-table-column prop="menu" label="是否菜单" />
+        <el-table-column prop="menu" label="是否菜单">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.menu" />
+          </template>
+        </el-table-column>
         <el-table-column prop="url" label="URL" />
         <el-table-column prop="icon" label="图标" />
         <el-table-column prop="sort" label="排序" />
@@ -44,22 +44,22 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="父权限ID" label-width="70px" prop="departmentId">
+        <el-form-item label="父权限" label-width="70px">
           <el-input v-model="form.parentId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="名称" label-width="70px" prop="departmentId">
+        <el-form-item label="名称" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="是否菜单" label-width="70px" prop="departmentId">
-          <el-input v-model="form.menu" autocomplete="off" />
+        <el-form-item label="是否菜单" label-width="70px">
+          <el-switch v-model="form.menu" />
         </el-form-item>
-        <el-form-item label="URL" label-width="70px" prop="departmentId">
+        <el-form-item label="URL" label-width="70px">
           <el-input v-model="form.url" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="图标" label-width="70px" prop="departmentId">
+        <el-form-item label="图标" label-width="70px">
           <el-input v-model="form.icon" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="排序" label-width="70px" prop="departmentId">
+        <el-form-item label="排序" label-width="70px">
           <el-input v-model="form.sort" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -72,24 +72,24 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="父权限ID" label-width="70px" prop="departmentId">
-              <el-input v-model="form.parentId" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="名称" label-width="70px" prop="departmentId">
-              <el-input v-model="form.name" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="是否菜单" label-width="70px" prop="departmentId">
-              <el-input v-model="form.menu" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="URL" label-width="70px" prop="departmentId">
-              <el-input v-model="form.url" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="图标" label-width="70px" prop="departmentId">
-              <el-input v-model="form.icon" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="排序" label-width="70px" prop="departmentId">
-              <el-input v-model="form.sort" autocomplete="off" />
-            </el-form-item>
+        <el-form-item label="父权限" label-width="70px">
+          <el-input v-model="form.parentId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="名称" label-width="70px">
+          <el-input v-model="form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="是否菜单" label-width="70px">
+          <el-switch v-model="form.menu" />
+        </el-form-item>
+        <el-form-item label="URL" label-width="70px">
+          <el-input v-model="form.url" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="图标" label-width="70px">
+          <el-input v-model="form.icon" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="排序" label-width="70px">
+          <el-input v-model="form.sort" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>

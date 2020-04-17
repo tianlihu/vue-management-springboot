@@ -59,7 +59,7 @@
       <el-form ref="form" :model="form" label-width="70px">
         <#list table.fields as field>
           <#if !field.keyFlag>
-            <el-form-item label="${field.comment!}" label-width="70px" prop="departmentId">
+            <el-form-item label="${field.comment!}" label-width="70px">
               <el-input v-model="form.${field.propertyName}" autocomplete="off" />
             </el-form-item>
           </#if>

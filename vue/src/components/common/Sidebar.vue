@@ -154,7 +154,7 @@ export default {
                     title: '错误处理',
                     subs: [
                         {
-                            index: 'permission',
+                            index: 'permission1',
                             title: '权限测试'
                         },
                         {
