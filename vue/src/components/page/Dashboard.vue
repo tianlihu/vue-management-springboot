@@ -109,11 +109,13 @@
 <script>
 import Schart from 'vue-schart';
 import bus from '../common/bus';
+import { getLoginUser } from '@/utils/user.js';
+
 export default {
     name: 'dashboard',
     data() {
         return {
-            name: localStorage.getItem('login_user'),
+            name: getLoginUser().account,
             todoList: [
                 {
                     title: '今天要修复100个bug',
@@ -220,6 +222,7 @@ export default {
     },
     computed: {
         role() {
+            console.log(getLoginUser());
             return this.name === 'admin' ? '超级管理员' : '普通用户';
         }
     },

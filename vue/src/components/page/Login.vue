@@ -24,6 +24,7 @@
 
 <script>
 import { login } from '@/api/index';
+import { setLoginUser } from '@/utils/user.js';
 
 export default {
     data: function() {
@@ -44,8 +45,8 @@ export default {
                 if (valid) {
                     login(this.param).then(res => {
                         if (!res.error) {
+                            setLoginUser(res.data.user);
                             this.$message.success('登录成功');
-                            localStorage.setItem('login_user', this.param.username);
                             this.$router.push('/');
                         } else {
                             this.$message.error(res.message);

@@ -24,4 +24,6 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     void saveRolePermission(Integer roleId, List<Integer> permissionIds);
 
     void deleteByRoleId(Integer roleId);
+
+    List<Permission> findByUserId(Integer userId);
 }
