@@ -21,8 +21,9 @@
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="sort" label="排序" />
         <el-table-column prop="remark" label="备注" />
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="220" align="center">
           <template slot-scope="scope">
+            <el-button type="text" icon="el-icon-setting" @click="handlePersmission(scope.$index, scope.row)">配置权限</el-button>
             <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -70,11 +71,21 @@
         <el-button type="primary" @click="saveEdit">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 编辑权限框 -->
+    <el-dialog title="配置权限" v-dialogDrag :visible.sync="permissionVisible" width="30%">
+      <el-tree ref="permissionTree" :data="permssionTreeData" default-expand-all show-checkbox node-key="permissionId" :default-checked-keys="checkedPermissionIds" :props="permissionProps" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="clearPermissions">取 消</el-button>
+        <el-button type="primary" @click="savePermission">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchRole, saveRole, updateRole, deleteRole } from '../../api/role';
+import { fetchRole, saveRole, updateRole, deleteRole, persmisssions, setPersmisssions } from '../../api/role';
+import { fetchPermission } from '../../api/permission';
 export default {
     name: 'basetable',
     data() {
@@ -83,11 +94,18 @@ export default {
                 current: 1,
                 size: 10
             },
+            permissionProps: {
+                label: 'name',
+                children: 'children'
+            },
             tableData: [],
             multipleSelection: [],
             delList: [],
             addVisible: false,
             editVisible: false,
+            permissionVisible: false,
+            permssionTreeData: [],
+            checkedPermissionIds: [],
             total: 0,
             form: {},
             idx: -1,
@@ -96,6 +114,7 @@ export default {
     },
     created() {
         this.getData();
+        this.getPermissions();
     },
     methods: {
         // 获取分页数据
@@ -103,6 +122,11 @@ export default {
             fetchRole(this.query).then(res => {
                 this.tableData = res.records;
                 this.total = res.total;
+            });
+        },
+        getPermissions() {
+            fetchPermission({}).then(res => {
+                this.permssionTreeData = res.data;
             });
         },
         // 触发搜索按钮
@@ -165,6 +189,32 @@ export default {
                 this.editVisible = false;
                 this.$message.success('修改成功');
             });
+        },
+        // 编辑权限
+        handlePersmission(index, row) {
+            this.permissionVisible = true;
+            this.form = Object.assign({}, row);
+            if (this.$refs.permissionTree) {
+                this.$refs.permissionTree.store._getAllNodes().forEach(node => {
+                    node.expanded = true;
+                });
+            }
+            persmisssions({ roleId: row.roleId }).then(res => {
+                this.checkedPermissionIds = res.data;
+            });
+        },
+        savePermission() {
+            var selection = this.$refs.permissionTree.getCheckedKeys();
+            var halfSelection = this.$refs.permissionTree.getHalfCheckedKeys();
+            halfSelection.forEach(e => selection.push(e));
+            setPersmisssions({ roleId: this.form.roleId, permissionIds: selection }).then(res => {
+                this.$message.success('设置权限成功');
+                this.clearPermissions();
+            });
+        },
+        clearPermissions() {
+            this.permissionVisible = false;
+            this.$refs.permissionTree.setCheckedKeys([]);
         },
         // 分页导航
         handleCurrentChange(val) {

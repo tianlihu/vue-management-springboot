@@ -25,4 +25,28 @@
         </if>
     </select>
 
+    <select id="findLeafPermissionIdsByRoleId" resultType="java.lang.Integer">
+        SELECT rp.permission_id
+        FROM sys_role_permission rp
+        WHERE
+        rp.role_id=#{roleId}
+        and not exists
+        (
+            select *
+            from sys_permission p
+            where
+            p.parent_id=rp.permission_id
+        )
+    </select>
+
+    <insert id="saveRolePermission">
+        INSERT INTO sys_role_permission(role_id, permission_id)
+        <foreach collection="permissionIds" item="permissionId" open="Values" separator=",">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_role_permission WHERE role_id=#{roleId}
+    </delete>
 </mapper>

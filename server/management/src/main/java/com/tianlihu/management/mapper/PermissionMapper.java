@@ -18,4 +18,10 @@ import java.util.List;
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     List<Permission> findByParentId(Integer parentId);
+
+    List<Integer> findLeafPermissionIdsByRoleId(Integer roleId);
+
+    void saveRolePermission(Integer roleId, List<Integer> permissionIds);
+
+    void deleteByRoleId(Integer roleId);
 }

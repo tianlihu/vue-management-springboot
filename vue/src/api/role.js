@@ -39,3 +39,19 @@ export const deleteRole = params => {
         params: params
     });
 };
+
+export const persmisssions = params => {
+    return request({
+        url: '/rest/role/permissions',
+        method: 'get',
+        params: params
+    });
+};
+
+export const setPersmisssions = params => {
+    return request({
+        url: '/rest/role/setPersmisssions',
+        method: 'get',
+        params: params
+    });
+};

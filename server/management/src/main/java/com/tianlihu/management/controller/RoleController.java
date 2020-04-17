@@ -63,6 +63,17 @@ public class RoleController {
         return ResponseData.success(id);
     }
 
+    @RequestMapping("/role/permissions")
+    public ResponseData permissions(Integer roleId) {
+        return ResponseData.success(roleService.findLeafPermissionIdsByRoleId(roleId));
+    }
+
+    @RequestMapping("/role/setPersmisssions")
+    public ResponseData setPersmisssions(Integer roleId, @RequestParam List<Integer> permissionIds) {
+        roleService.setPersmisssions(roleId, permissionIds);
+        return ResponseData.success();
+    }
+
     @ResponseBody
     @RequestMapping("/role/export")
     public void export(RoleQuery query, HttpServletResponse response) throws IOException {
