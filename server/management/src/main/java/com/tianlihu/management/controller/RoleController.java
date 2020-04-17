@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.tianlihu.management.entity.Role;
-import com.tianlihu.management.query.RoleQuery;
 import com.tianlihu.management.service.RoleService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -68,9 +67,9 @@ public class RoleController {
         return ResponseData.success(roleService.findLeafPermissionIdsByRoleId(roleId));
     }
 
-    @RequestMapping("/role/setPersmisssions")
+    @RequestMapping("/role/setPermisssions")
     public ResponseData setPersmisssions(Integer roleId, @RequestParam List<Integer> permissionIds) {
-        roleService.setPersmisssions(roleId, permissionIds);
+        roleService.setPermisssions(roleId, permissionIds);
         return ResponseData.success();
     }
 

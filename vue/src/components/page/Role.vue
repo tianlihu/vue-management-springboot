@@ -13,7 +13,7 @@
         <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.remark" placeholder="备注" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" v-if="hasPermission('/role/add')" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
@@ -21,11 +21,11 @@
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="sort" label="排序" />
         <el-table-column prop="remark" label="备注" />
-        <el-table-column label="操作" width="220" align="center">
+        <el-table-column label="操作" width="220" align="center" v-if="hasPermission('/role/setPermissions', '/role/edit', '/role/delete')">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-setting" @click="handlePersmission(scope.$index, scope.row)">配置权限</el-button>
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-setting" v-if="hasPermission('/role/setPermissions')" @click="handlePermission(scope.$index, scope.row)">配置权限</el-button>
+            <el-button type="text" icon="el-icon-edit" v-if="hasPermission('/role/edit')" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="hasPermission('/role/delete')" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -37,13 +37,13 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="名称" label-width="70px" prop="departmentId">
+        <el-form-item label="名称" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="排序" label-width="70px" prop="departmentId">
+        <el-form-item label="排序" label-width="70px">
           <el-input v-model="form.sort" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="备注" label-width="70px" prop="departmentId">
+        <el-form-item label="备注" label-width="70px">
           <el-input v-model="form.remark" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -56,13 +56,13 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="名称" label-width="70px" prop="departmentId">
+        <el-form-item label="名称" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="排序" label-width="70px" prop="departmentId">
+        <el-form-item label="排序" label-width="70px">
           <el-input v-model="form.sort" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="备注" label-width="70px" prop="departmentId">
+        <el-form-item label="备注" label-width="70px">
           <el-input v-model="form.remark" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { fetchRole, saveRole, updateRole, deleteRole, persmisssions, setPersmisssions } from '../../api/role';
+import { fetchRole, saveRole, updateRole, deleteRole, permisssions, setPermisssions } from '../../api/role';
 import { fetchPermission } from '../../api/permission';
 export default {
     name: 'basetable',
@@ -191,7 +191,7 @@ export default {
             });
         },
         // 编辑权限
-        handlePersmission(index, row) {
+        handlePermission(index, row) {
             this.permissionVisible = true;
             this.form = Object.assign({}, row);
             if (this.$refs.permissionTree) {
@@ -199,7 +199,7 @@ export default {
                     node.expanded = true;
                 });
             }
-            persmisssions({ roleId: row.roleId }).then(res => {
+            permisssions({ roleId: row.roleId }).then(res => {
                 this.checkedPermissionIds = res.data;
             });
         },

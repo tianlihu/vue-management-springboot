@@ -17,7 +17,7 @@
         <el-input v-model="query.sort" placeholder="排序" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.remark" placeholder="备注" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" v-if="hasPermission('/department/add')" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
@@ -27,10 +27,10 @@
         <el-table-column prop="name" label="全称" />
         <el-table-column prop="sort" label="排序" />
         <el-table-column prop="remark" label="备注" />
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="180" align="center" v-if="hasPermission('/department/edit', '/department/delete')">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-edit" v-if="hasPermission('/department/edit')" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="hasPermission('/department/delete')" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

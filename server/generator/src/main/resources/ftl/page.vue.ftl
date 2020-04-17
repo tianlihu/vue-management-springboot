@@ -14,7 +14,7 @@
         <el-input v-model="query.${field.propertyName}" placeholder="${field.comment!}" class="handle-input mr10" style="width:120px;" />
         </#list>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" v-if="hasPermission('/${table.entityPath}/add')" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
@@ -25,10 +25,10 @@
         <el-table-column prop="${field.propertyName}" label="${field.comment!}" />
         </#if>
         </#list>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="180" align="center" v-if="hasPermission('/${table.entityPath}/edit', '/${table.entityPath}/delete')">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-edit" v-if="hasPermission('/${table.entityPath}/edit')" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="hasPermission('/${table.entityPath}/delete')" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,7 +42,7 @@
       <el-form ref="form" :model="form" label-width="70px">
         <#list table.fields as field>
         <#if !field.keyFlag>
-        <el-form-item label="${field.comment!}" label-width="70px" prop="departmentId">
+        <el-form-item label="${field.comment!}" label-width="70px">
           <el-input v-model="form.${field.propertyName}" autocomplete="off" />
         </el-form-item>
         </#if>

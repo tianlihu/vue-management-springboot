@@ -9,10 +9,14 @@ import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
+import user from '@/utils/user.js';
 import { getLoginUser } from '@/utils/user.js';
+import permission from '@/utils/permission.js';
 
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
+Vue.use(user);
+Vue.use(permission);
 Vue.use(ElementUI, {
     size: 'small'
 });

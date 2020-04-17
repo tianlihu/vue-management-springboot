@@ -3,22 +3,22 @@
     <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157" text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
       <template v-for="item in items">
         <template v-if="item.subs">
-          <el-submenu :index="item.index" v-if="hasPermission(item.index)" :key="item.index">
+          <el-submenu :index="item.index" v-if="hasPermission('/'+item.index)" :key="item.index">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{ item.title }}</span>
             </template>
             <template v-for="subItem in item.subs">
-              <el-submenu v-if="subItem.subs&&hasPermission(subItem.index)" :index="subItem.index" :key="subItem.index">
+              <el-submenu v-if="subItem.subs&&hasPermission('/'+subItem.index)" :index="subItem.index" :key="subItem.index">
                 <template slot="title">{{ subItem.title }}</template>
                 <el-menu-item v-for="(threeItem,i) in subItem.subs" :key="i" :index="threeItem.index">{{ threeItem.title }}</el-menu-item>
               </el-submenu>
-              <el-menu-item v-else-if="hasPermission(subItem.index)" :index="subItem.index" :key="subItem.index">{{ subItem.title }}</el-menu-item>
+              <el-menu-item v-else-if="hasPermission('/'+subItem.index)" :index="subItem.index" :key="subItem.index">{{ subItem.title }}</el-menu-item>
             </template>
           </el-submenu>
         </template>
         <template v-else>
-          <el-menu-item :index="item.index" v-if="hasPermission(item.index)" :key="item.index">
+          <el-menu-item :index="item.index" v-if="hasPermission('/'+item.index)" :key="item.index">
             <i :class="item.icon"></i>
             <span slot="title">{{ item.title }}</span>
           </el-menu-item>
@@ -30,14 +30,12 @@
 
 <script>
 import bus from '../common/bus';
-import { getLoginUser } from '@/utils/user';
-import { getPermissions } from '@/utils/permission';
 
 export default {
     data() {
         return {
             collapse: false,
-            permissions: getPermissions(),
+            permissions: this.getPermissions(),
             items: [
                 {
                     icon: 'el-icon-lx-home',
@@ -174,21 +172,6 @@ export default {
                 }
             ]
         };
-    },
-    methods: {
-        hasPermission(index) {
-            let user = getLoginUser();
-            if (user.admin || index === 'dashboard') {
-                return true;
-            }
-            for (var i in this.permissions) {
-                if (this.permissions[i].url == '/' + index) {
-                    console.log(this.permissions[i].url);
-                    return true;
-                }
-            }
-            return false;
-        }
     },
     computed: {
         onRoutes() {

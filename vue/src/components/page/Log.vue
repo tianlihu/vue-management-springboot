@@ -17,7 +17,7 @@
         <el-input v-model="query.content" placeholder="内容" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.ip" placeholder="IP" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" v-if="hasPermission('/log/add')" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
@@ -27,10 +27,10 @@
         <el-table-column prop="createTime" label="创建时间" />
         <el-table-column prop="content" label="内容" />
         <el-table-column prop="ip" label="IP" />
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="操作" width="180" align="center" v-if="hasPermission('/log/edit', '/log/delete')">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-edit" v-if="hasPermission('/log/edit')" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="hasPermission('/log/delete')" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,19 +42,19 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="用户ID" label-width="70px" prop="departmentId">
+        <el-form-item label="用户ID" label-width="70px">
           <el-input v-model="form.userId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="类型" label-width="70px" prop="departmentId">
+        <el-form-item label="类型" label-width="70px">
           <el-input v-model="form.type" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="创建时间" label-width="70px" prop="departmentId">
+        <el-form-item label="创建时间" label-width="70px">
           <el-input v-model="form.createTime" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="内容" label-width="70px" prop="departmentId">
+        <el-form-item label="内容" label-width="70px">
           <el-input v-model="form.content" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="IP" label-width="70px" prop="departmentId">
+        <el-form-item label="IP" label-width="70px">
           <el-input v-model="form.ip" autocomplete="off" />
         </el-form-item>
       </el-form>
@@ -67,21 +67,21 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-            <el-form-item label="用户ID" label-width="70px" prop="departmentId">
-              <el-input v-model="form.userId" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="类型" label-width="70px" prop="departmentId">
-              <el-input v-model="form.type" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="创建时间" label-width="70px" prop="departmentId">
-              <el-input v-model="form.createTime" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="内容" label-width="70px" prop="departmentId">
-              <el-input v-model="form.content" autocomplete="off" />
-            </el-form-item>
-            <el-form-item label="IP" label-width="70px" prop="departmentId">
-              <el-input v-model="form.ip" autocomplete="off" />
-            </el-form-item>
+        <el-form-item label="用户ID" label-width="70px">
+          <el-input v-model="form.userId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="类型" label-width="70px">
+          <el-input v-model="form.type" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="创建时间" label-width="70px">
+          <el-input v-model="form.createTime" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="内容" label-width="70px">
+          <el-input v-model="form.content" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="IP" label-width="70px">
+          <el-input v-model="form.ip" autocomplete="off" />
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false">取 消</el-button>

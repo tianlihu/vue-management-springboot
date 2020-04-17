@@ -13,3 +13,11 @@ export const getLoginUser = () => {
 export const removeLoginUser = () => {
     localStorage.removeItem('login_user');
 };
+
+export default {
+    install: function(Vue) {
+        Vue.prototype.getLoginUser = () => getLoginUser();
+        Vue.prototype.setLoginUser = user => setLoginUser(user);
+        Vue.prototype.removeLoginUser = () => removeLoginUser();
+    }
+};

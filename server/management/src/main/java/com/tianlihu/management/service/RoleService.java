@@ -49,7 +49,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> {
         return super.updateById(role);
     }
 
-    public void setPersmisssions(Integer roleId, List<Integer> permissionIds) {
+    public void setPermisssions(Integer roleId, List<Integer> permissionIds) {
         permissionMapper.deleteByRoleId(roleId);
         if (!CollectionUtils.isEmpty(permissionIds)) {
             permissionMapper.saveRolePermission(roleId, permissionIds);

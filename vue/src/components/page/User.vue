@@ -28,7 +28,7 @@
           <el-option label="禁用" value="false" />
         </el-select>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
+        <el-button type="primary" icon="el-icon-circle-plus-outline" v-if="hasPermission('/user/add')" @click="handleAdd">添加</el-button>
       </div>
       <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center" />
@@ -48,11 +48,11 @@
             <el-switch v-model="scope.row.status" />
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="220" align="center">
+        <el-table-column label="操作" width="220" align="center" v-if="hasPermission('/user/setRoles', '/user/edit', '/user/delete')">
           <template slot-scope="scope">
-            <el-button type="text" icon="el-icon-setting" @click="handleRole(scope.$index, scope.row)">设置角色</el-button>
-            <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="text" icon="el-icon-setting" v-if="hasPermission('/user/setRoles')" @click="handleRole(scope.$index, scope.row)">设置角色</el-button>
+            <el-button type="text" icon="el-icon-edit" v-if="hasPermission('/user/edit')" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="text" icon="el-icon-delete" v-if="hasPermission('/user/delete')" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,25 +64,25 @@
     <!-- 添加弹出框 -->
     <el-dialog title="添加" v-dialogDrag :visible.sync="addVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="部门" label-width="70px" prop="departmentId">
+        <el-form-item label="部门" label-width="70px">
           <el-input v-model="form.departmentId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="登录名" label-width="70px" prop="account">
+        <el-form-item label="登录名" label-width="70px">
           <el-input v-model="form.account" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="姓名" label-width="70px" prop="name">
+        <el-form-item label="姓名" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" label-width="70px" prop="password">
+        <el-form-item label="密码" label-width="70px">
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="电话" label-width="70px" prop="phone">
+        <el-form-item label="电话" label-width="70px">
           <el-input v-model="form.phone" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="管理员" label-width="70px" prop="admin">
+        <el-form-item label="管理员" label-width="70px">
           <el-switch v-model="form.admin" />
         </el-form-item>
-        <el-form-item label="状态" label-width="70px" prop="status">
+        <el-form-item label="状态" label-width="70px">
           <el-switch v-model="form.status" />
         </el-form-item>
       </el-form>
@@ -95,25 +95,25 @@
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" v-dialogDrag :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="70px">
-        <el-form-item label="部门" label-width="70px" prop="departmentId">
+        <el-form-item label="部门" label-width="70px">
           <el-input v-model="form.departmentId" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="登录名" label-width="70px" prop="account">
+        <el-form-item label="登录名" label-width="70px">
           <el-input v-model="form.account" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="姓名" label-width="70px" prop="name">
+        <el-form-item label="姓名" label-width="70px">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码" label-width="70px" prop="password">
+        <el-form-item label="密码" label-width="70px">
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="电话" label-width="70px" prop="phone">
+        <el-form-item label="电话" label-width="70px">
           <el-input v-model="form.phone" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="管理员" label-width="70px" prop="admin">
+        <el-form-item label="管理员" label-width="70px">
           <el-switch v-model="form.admin" />
         </el-form-item>
-        <el-form-item label="状态" label-width="70px" prop="status">
+        <el-form-item label="状态" label-width="70px">
           <el-switch v-model="form.status" />
         </el-form-item>
       </el-form>
@@ -140,6 +140,7 @@
 <script>
 import { fetchUser, saveUser, updateUser, deleteUser, saveUserRole, fetchUserRoles } from '../../api/user';
 import { fetchRoleList } from '../../api/role';
+
 export default {
     name: 'basetable',
     data() {
@@ -175,7 +176,6 @@ export default {
         },
         getRoles() {
             fetchRoleList().then(res => {
-                console.log(res);
                 this.roles = res;
             });
         },
