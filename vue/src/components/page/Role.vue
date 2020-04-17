@@ -207,7 +207,7 @@ export default {
             var selection = this.$refs.permissionTree.getCheckedKeys();
             var halfSelection = this.$refs.permissionTree.getHalfCheckedKeys();
             halfSelection.forEach(e => selection.push(e));
-            setPersmisssions({ roleId: this.form.roleId, permissionIds: selection }).then(res => {
+            setPermisssions({ roleId: this.form.roleId, permissionIds: selection }).then(res => {
                 this.$message.success('设置权限成功');
                 this.clearPermissions();
             });
