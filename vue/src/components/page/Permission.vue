@@ -10,15 +10,14 @@
     <div class="container">
       <div class="handle-box">
         <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-        <el-input v-model="query.parentId" placeholder="父权限" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.name" placeholder="名称" class="handle-input mr10" style="width:120px;" />
         <el-input v-model="query.menu" placeholder="是否菜单" class="handle-input mr10" style="width:120px;" />
         <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAdd">添加</el-button>
       </div>
-      <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange">
+      <el-table :data="tableData" row-key="permissionId" border class="table" ref="multipleTable" header-cell-class-name="table-header" @selection-change="handleSelectionChange" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column prop="permissionId" label="编号" width="55" align="center" />
+        <el-table-column prop="permissionId" label="编号" width="120" align="center" />
         <el-table-column prop="parentId" label="父权限" />
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="menu" label="是否菜单">
@@ -36,9 +35,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pagination">
-        <el-pagination @size-change="handlePageChange" @current-change="handleCurrentChange" :current-page="query.current" :total="total" :page-sizes="[5, 10, 15, 20]" :page-size="query.size" layout="total, sizes, prev, pager, next, jumper" />
-      </div>
     </div>
 
     <!-- 添加弹出框 -->
@@ -105,10 +101,7 @@ export default {
     name: 'basetable',
     data() {
         return {
-            query: {
-                current: 1,
-                size: 10
-            },
+            query: {},
             tableData: [],
             multipleSelection: [],
             delList: [],
@@ -127,8 +120,7 @@ export default {
         // 获取分页数据
         getData() {
             fetchPermission(this.query).then(res => {
-                this.tableData = res.records;
-                this.total = res.total;
+                this.tableData = res.data;
             });
         },
         // 触发搜索按钮
@@ -191,15 +183,6 @@ export default {
                 this.editVisible = false;
                 this.$message.success('修改成功');
             });
-        },
-        // 分页导航
-        handleCurrentChange(val) {
-            this.query.current = val;
-            this.getData();
-        },
-        handlePageChange(val) {
-            this.query.size = val;
-            this.getData();
         }
     }
 };

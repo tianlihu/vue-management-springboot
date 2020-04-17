@@ -4,6 +4,8 @@ import com.tianlihu.management.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  * 权限 Mapper 接口
@@ -15,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PermissionMapper extends BaseMapper<Permission> {
 
+    List<Permission> findByParentId(Integer parentId);
 }

@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
@@ -65,5 +68,5 @@ public class Permission implements Serializable {
     @TableField("sort")
     private Integer sort;
 
-
+    private List<Permission> children = new ArrayList<>();
 }

@@ -11,6 +11,18 @@
         <result column="url" property="url" />
         <result column="icon" property="icon" />
         <result column="sort" property="sort" />
+        <collection property="children" ofType="com.tianlihu.management.entity.Permission" fetchType="eager" column="permission_id" select="com.tianlihu.management.mapper.PermissionMapper.findByParentId" />
     </resultMap>
+
+    <select id="findByParentId" resultMap="BaseResultMap">
+        SELECT *
+        FROM sys_permission
+        <if test="parentId==null">
+            WHERE parent_id is null
+        </if>
+        <if test="parentId!=null">
+            WHERE parent_id=#{parentId}
+        </if>
+    </select>
 
 </mapper>

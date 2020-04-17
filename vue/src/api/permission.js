@@ -2,7 +2,7 @@ import request from '../utils/request';
 
 export const fetchPermission = query => {
     return request({
-        url: '/rest/permission/page',
+        url: '/rest/permission/list',
         method: 'post',
         data: query
     });

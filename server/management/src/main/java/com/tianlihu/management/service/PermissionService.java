@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>权限 服务实现类</p>
  *
@@ -29,6 +31,10 @@ public class PermissionService extends ServiceImpl<PermissionMapper, Permission>
             wrapper.eq("menu", query.getMenu());
         }
         return super.page(query, wrapper);
+    }
+
+    public List<Permission> findByParentId(Integer parentId) {
+        return getBaseMapper().findByParentId(parentId);
     }
 
     @Override

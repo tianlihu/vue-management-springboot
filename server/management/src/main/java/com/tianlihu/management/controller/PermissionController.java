@@ -1,16 +1,12 @@
 package com.tianlihu.management.controller;
 
 import com.alibaba.excel.EasyExcel;
-import com.tianlihu.management.query.PermissionQuery;
-import com.tianlihu.management.response.ResponseData;
-
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.tianlihu.management.entity.Permission;
 import com.tianlihu.management.query.PermissionQuery;
+import com.tianlihu.management.response.ResponseData;
 import com.tianlihu.management.service.PermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,14 +25,9 @@ public class PermissionController {
     @Autowired
     private PermissionService permissionService;
 
-    @RequestMapping("/permission/page")
-    public IPage<Permission> page(@RequestBody PermissionQuery query){
-        return permissionService.page(query);
-    }
-
     @RequestMapping("/permission/list")
-    public List<Permission> list(@RequestBody PermissionQuery query){
-        return permissionService.list();
+    public ResponseData list(@RequestBody PermissionQuery query){
+        return ResponseData.success(permissionService.findByParentId(null));
     }
 
     @RequestMapping("/permission/findById")
@@ -70,6 +61,6 @@ public class PermissionController {
         response.setCharacterEncoding("utf-8");
         String fileName = URLEncoder.encode("权限.xlsx", "UTF-8");
         response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-        EasyExcel.write(response.getOutputStream(), Permission.class).sheet("权限").doWrite(list(query));
+        EasyExcel.write(response.getOutputStream(), Permission.class).sheet("权限").doWrite(permissionService.list());
     }
 }
