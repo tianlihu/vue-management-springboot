@@ -68,5 +68,6 @@ public class Permission implements Serializable {
     @TableField("sort")
     private Integer sort;
 
+    @TableField(exist = false)
     private List<Permission> children = new ArrayList<>();
 }
