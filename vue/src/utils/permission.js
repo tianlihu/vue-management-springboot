@@ -20,14 +20,17 @@ export const hasPermission = (...urls) => {
     if (!urls || urls.length == 0) {
         return false;
     }
+    let user = getLoginUser();
+    if (user.admin) {
+        return true;
+    }
     let result = false;
     let permissions = getPermissions();
     urls.forEach(url => {
         if (result) {
             return;
         }
-        let user = {}; //getLoginUser();
-        if (!user.admin && url != '/dashboard') {
+        if (url != '/dashboard') {
             let found = false;
             for (var i in permissions) {
                 if (permissions[i].url === url) {

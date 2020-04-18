@@ -41,8 +41,8 @@
 
     <select id="findByUserId" resultType="com.tianlihu.management.entity.Permission">
         select p.*
-        from sys_user_role ur
-        left join sys_role_permission rp on rp.role_id=ur.role_id
+        from sys_role_permission rp
+        left join sys_user_role ur on ur.role_id=rp.role_id
         left join sys_permission p on p.permission_id=rp.permission_id
         where
         ur.user_id=#{userId}
