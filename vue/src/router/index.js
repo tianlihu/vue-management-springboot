@@ -105,32 +105,32 @@ export default new Router({
                 {
                     path: '/user',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/User.vue'),
-                    meta: { title: '用户管理' }
+                    meta: { title: '用户管理', permission: true }
                 },
                 {
                     path: '/role',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Role.vue'),
-                    meta: { title: '角色管理' }
+                    meta: { title: '角色管理', permission: true }
                 },
                 {
                     path: '/permission',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Permission.vue'),
-                    meta: { title: '权限管理' }
+                    meta: { title: '权限管理', permission: true }
                 },
                 {
                     path: '/department',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Department.vue'),
-                    meta: { title: '部门管理' }
+                    meta: { title: '部门管理', permission: true }
                 },
                 {
                     path: '/position',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Position.vue'),
-                    meta: { title: '职位管理' }
+                    meta: { title: '职位管理', permission: true }
                 },
                 {
                     path: '/log',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Log.vue'),
-                    meta: { title: '日志' }
+                    meta: { title: '日志', permission: true }
                 }
             ]
         },
