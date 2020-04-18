@@ -21,12 +21,12 @@ export const hasPermission = (...urls) => {
         return false;
     }
     let result = false;
+    let permissions = getPermissions();
     urls.forEach(url => {
         if (result) {
             return;
         }
         let user = {}; //getLoginUser();
-        let permissions = getPermissions();
         if (!user.admin && url != '/dashboard') {
             let found = false;
             for (var i in permissions) {
